@@ -9,11 +9,18 @@ import resources.ResourcesResolver;
 
 public class Main extends Application {
 
+    ResourcesResolver resourcesResolver = ResourcesResolver.getResourcesResolver();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(ResourcesResolver.getResourcesResolver().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(resourcesResolver.getResource("sample.fxml"));
+        Parent root = fxmlLoader.load();
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+
+        Controller controller = fxmlLoader.getController();
+
+        Scene primaryScene = new Scene(root);
+        primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
 
