@@ -1,8 +1,54 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="main.sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="854.0" style="-fx-background-color: #fff;"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="main.sample.Controller">
+    <children>
+        <AnchorPane layoutX="34.0" layoutY="17.0" prefHeight="486.0" prefWidth="348.0"
+                    style="-fx-background-color: #0C39FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <children>
+                <Label alignment="CENTER" layoutX="72.0" layoutY="202.0" prefHeight="23.0" prefWidth="205.0"
+                       text="Shutdown" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI" size="18.0"/>
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="58.0" layoutY="239.0" prefHeight="69.0" prefWidth="233.0"
+                       text="Manage your desktop shutdown remotely" textAlignment="CENTER" textFill="WHITE"
+                       wrapText="true">
+                    <font>
+                        <Font name="Segoe UI" size="12.0"/>
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <Pane layoutX="443.0" layoutY="173.0" prefHeight="200.0" prefWidth="283.0" AnchorPane.bottomAnchor="130.0"
+              AnchorPane.topAnchor="173.0">
+            <children>
+                <Button fx:id="signInButton" layoutX="58.0" layoutY="14.0" mnemonicParsing="false" prefHeight="34.0"
+                        prefWidth="165.0" style="-fx-background-color: #0C39FF;" text="Sign in" textFill="WHITE">
+                </Button>
+                <Button fx:id="signUpButton" layoutX="55.0" layoutY="96.0" mnemonicParsing="false" prefHeight="34.0"
+                        prefWidth="165.0" stylesheets="@../styling/fullpackstyling.css" text="Sign up"/>
+                <Separator layoutX="60.0" layoutY="80.0" prefHeight="4.0" prefWidth="165.0"/>
+                <Label alignment="CENTER" layoutX="126.0" layoutY="72.0" prefHeight="23.0" prefWidth="31.0"
+                       style="-fx-background-color: #fff;" text="Or" textFill="#5b5a5a">
+                    <font>
+                        <Font name="Segoe UI" size="12.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="lblErrors" alignment="CENTER" layoutX="3.0" layoutY="133.0" prefHeight="23.0"
+                       prefWidth="275.0" textAlignment="CENTER" textFill="#ff6354">
+                    <font>
+                        <Font name="Segoe UI" size="10.0"/>
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
