@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.sample.BaseController;
 import main.sample.model.User;
+import main.sample.util.RestService;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -128,23 +129,7 @@ public class RegisterController extends BaseController implements Initializable 
         User user = new User(username, password, name, surname, phoneNumber);
 
 
-        String myUrl = "localhost:8080/user/create";
-        //HttpResponse response;
-        try {
-            URL url = new URL(myUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setRequestProperty("User", user.toString());
-            connection.connect();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        String response = new RestService().postForString("http://localhost:8080/user/create", user.toString());
 
         // TODO: make request on user sign up
     }

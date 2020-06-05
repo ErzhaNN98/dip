@@ -10,11 +10,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
+        return "{" +
+                "\"firmId\": \"" + 1 + "\"," +
+                "\"login\": \"" + username + "\"," +
+                "\"name\": \"" + name + "\"," +
+                "\"surname\": \"" + surname + "\"," +
+                "\"phone\": \"" + phoneNumber + "\"," +
+                "\"position\": \"" + 1 + "\"" +
+                "}";
     }
 
     @Override
