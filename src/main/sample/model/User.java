@@ -6,6 +6,7 @@ public class User {
     private String username;
     private String password;
     private String name, surname;
+    private String phoneNumber;
 
     @Override
     public String toString() {
@@ -55,10 +56,11 @@ public class User {
         this.surname = surname;
     }
 
-    public User(String username, String password, String name, String surname) {
+    public User(String username, String password, String name, String surname, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
+        this.phoneNumber = phoneNumber;
     }
 }

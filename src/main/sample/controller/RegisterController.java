@@ -10,8 +10,14 @@ import javafx.scene.control.TextField;
 import main.sample.BaseController;
 import main.sample.model.User;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class RegisterController extends BaseController implements Initializable {
 
@@ -31,6 +37,11 @@ public class RegisterController extends BaseController implements Initializable 
     public TextField nameTextField;
     @FXML
     public TextField surnameTextField;
+
+    @FXML
+    public TextField phoneNumberTextField;
+
+    private final List<String> codeAperators = Arrays.asList("701", "702", "705", "777", "775", "776", "778", "747", "700", "707");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -76,11 +87,64 @@ public class RegisterController extends BaseController implements Initializable 
             return;
         }
 
+        final String phoneNumber = getNormalPhoneNumber(phoneNumberTextField.getText());
+
+        if (phoneNumber.length() != 11) {
+            showError("Phone number length must be 11");
+            return;
+        }
+
+        if (phoneNumber.charAt(0) != '7') {
+            showError("something wrong");
+            return;
+        }
+
+        for (int i = 1; i < phoneNumber.length(); i++) {
+            if (phoneNumber.charAt(i) >= '0' && phoneNumber.charAt(i) <= '9') {
+                continue;
+            }
+            showError("something wrong1");
+            return;
+        }
+
+        final String codeAperator = getCodeAperator(phoneNumber);
+        boolean ok = false;
+        for (int i = 0; i < codeAperators.size(); i++) {
+            if (codeAperator.equals(codeAperators.get(i))) {
+                ok = true;
+                break;
+            }
+        }
+
+        if (!ok) {
+            showError("Code aperator doesn't exists");
+        }
+
+
         final String username = usernameTextField.getText();
         final String name = nameTextField.getText();
         final String surname = surnameTextField.getText();
 
-        User user = new User(username, password, name, surname);
+        User user = new User(username, password, name, surname, phoneNumber);
+
+
+        String myUrl = "localhost:8080/user/create";
+        //HttpResponse response;
+        try {
+            URL url = new URL(myUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setRequestProperty("User", user.toString());
+            connection.connect();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         // TODO: make request on user sign up
     }
@@ -91,5 +155,29 @@ public class RegisterController extends BaseController implements Initializable 
 
     private void showError(String text) {
         this.errorLabel.setText(text);
+    }
+
+    private String getNormalPhoneNumber(String phoneNumber) {
+        StringBuilder res = new StringBuilder();
+        int i = 0;
+        if (phoneNumber.charAt(0) == '+') {
+            i = 1;
+        } else if (phoneNumber.charAt(0) == '8') {
+            i = 1;
+            res.append('7');
+        }
+        for (; i < phoneNumber.length(); i++) {
+            char ch = phoneNumber.charAt(i);
+            if (ch == '(' || ch == ')') {
+                continue;
+            }
+            res.append(ch);
+        }
+
+        return res.toString();
+    }
+
+    private String getCodeAperator(String phoneNumber) {
+        return phoneNumber.substring(1, 4);
     }
 }
