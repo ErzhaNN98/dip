@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.sample.BaseController;
-import main.sample.model.LogInfo;
 import main.sample.model.User;
 import main.sample.util.RestService;
 
@@ -77,8 +76,7 @@ public class LoginController extends BaseController implements Initializable {
         }
 
         User user = getUserFromResponse(response);
-        LogInfo logInfo = new LogInfo(user.getId(), "Success");
-        new RestService().postForString("http://localhost:8080/logInfo/create", user.getId().toString(), "POST");
+        //new RestService().postForString("http://localhost:8080/logInfo/create", user.getId().toString(), "POST");
 
         changeSceneByEventWithDate(event, user);
     }
