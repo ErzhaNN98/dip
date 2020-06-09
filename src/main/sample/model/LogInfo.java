@@ -14,6 +14,8 @@ public class LogInfo {
         this.userId = userId;
     }
 
+    public LogInfo() {}
+
     /*
      * Getters & Setters
      */
@@ -22,6 +24,9 @@ public class LogInfo {
 
     public String getLog() { return log; }
     public void setLog(String log) { this.log = log; }
+
+    public Integer getUserId() { return userId; }
+    public void setUserId(Integer userId) { this.userId = userId; }
 
     /*
      * Entity Basics
