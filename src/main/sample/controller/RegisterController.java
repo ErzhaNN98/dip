@@ -8,8 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.sample.BaseController;
+import main.sample.model.LogInfo;
 import main.sample.model.User;
 import main.sample.util.RestService;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -46,7 +48,13 @@ public class RegisterController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        signUpButton.setOnAction(this::signUpButtonClick);
+        signUpButton.setOnAction(actionEvent -> {
+            try {
+                signUpButtonClick(actionEvent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         backButton.setOnAction(event -> {
             try {
                 changeSceneByEvent(event, "sample.fxml");
@@ -56,7 +64,7 @@ public class RegisterController extends BaseController implements Initializable 
         });
     }
 
-    private void signUpButtonClick(ActionEvent actionEvent) {
+    private void signUpButtonClick(ActionEvent actionEvent) throws Exception {
         hideError();
         String format = "%s can not be empty";
         if (Util.isEmptyOrNull(usernameTextField.getText())) {
@@ -126,12 +134,18 @@ public class RegisterController extends BaseController implements Initializable 
         final String name = nameTextField.getText();
         final String surname = surnameTextField.getText();
 
-        User user = new User(username, password, name, surname, phoneNumber);
+        User user = new User(null, username, password, name, surname, phoneNumber);
 
+        String response = new RestService().postForString("http://localhost:8080/user/create", user.toString(), "POST");
+        if (response.isEmpty()) {
+            showError("Error");
+            return;
+        }
 
-        String response = new RestService().postForString("http://localhost:8080/user/create", user.toString());
+        user.setId(findId(response));
 
-        // TODO: make request on user sign up
+        new RestService().postForString("http://localhost:8080/logInfo/create", user.getId().toString(), "POST");
+        changeSceneByEvent(actionEvent, "home.fxml");
     }
 
     private void hideError() {
@@ -164,5 +178,17 @@ public class RegisterController extends BaseController implements Initializable 
 
     private String getCodeAperator(String phoneNumber) {
         return phoneNumber.substring(1, 4);
+    }
+
+    private Integer findId(String response) {
+        StringBuilder res = new StringBuilder();
+        int id = 0;
+        for (int i = 4; i < response.length() - 1; i++) {
+            if (response.charAt(i) == ',') {
+                break;
+            }
+            res.append(response.charAt(i));
+        }
+        return Integer.parseInt(res.toString());
     }
 }
