@@ -144,8 +144,8 @@ public class RegisterController extends BaseController implements Initializable 
 
         user.setId(findId(response));
 
-        new RestService().postForString("http://localhost:8080/logInfo/create", user.getId().toString(), "POST");
-        changeSceneByEvent(actionEvent, "home.fxml");
+        //new RestService().postForString("http://localhost:8080/logInfo/create", user.getId().toString(), "POST");
+        changeSceneByEventWithDate(actionEvent, user);
     }
 
     private void hideError() {

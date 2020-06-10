@@ -8,9 +8,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.sample.controller.HomeController;
 import main.sample.model.User;
+import main.sample.util.RestService;
 import resources.ResourcesResolver;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BaseController {
     protected ResourcesResolver resourcesResolver = ResourcesResolver.getResourcesResolver();
@@ -26,6 +29,37 @@ public class BaseController {
     }
 
     protected void changeSceneByEventWithDate(Event event, User user) throws IOException {
+        new Timer().schedule(new TimerTask() {
+            int q = 0;
+            @Override
+            public void run() {
+                if (q > 10) {
+                    String params = "{" +
+                            "\"userId\": \"" + user.getId().toString() + "\"," +
+                            "\"log\": \"" + "Error" + "\"" +
+                            "}";
+                    new RestService().postForString("http://localhost:8080/logInfo/create", params, "POST");
+                    try {
+                        Process shutdown = Runtime.getRuntime().exec(new String[]{"shutdown", "-s"});
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    cancel();
+                }
+                q++;
+                String response = new RestService().postForString("http://localhost:8080/userStat/check", user.getId().toString(), "POST");
+                System.out.println(response);
+                if (!response.isEmpty()) {
+                    String params = "{" +
+                            "\"userId\": \"" + user.getId().toString() + "\"," +
+                            "\"log\": \"" + "Success" + "\"" +
+                            "}";
+                    new RestService().postForString("http://localhost:8080/logInfo/create", params, "POST");
+                    cancel();
+                }
+            }
+        }, 0, 5000);
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
 

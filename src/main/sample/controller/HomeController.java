@@ -62,37 +62,6 @@ public class HomeController extends BaseController implements Initializable {
         this.user = user;
         userFullName.setText(user.getName() + " " + user.getSurname());
 
-        new Timer().schedule(new TimerTask() {
-            int q = 0;
-            @Override
-            public void run() {
-                if (q > 10) {
-                    String params = "{" +
-                            "\"userId\": \"" + user.getId().toString() + "\"," +
-                            "\"log\": \"" + "Error" + "\"" +
-                            "}";
-                    new RestService().postForString("http://localhost:8080/logInfo/create", params, "POST");
-                    try {
-                        Process shutdown = Runtime.getRuntime().exec(new String[]{"shutdown", "-s"});
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    cancel();
-                }
-                q++;
-                String response = new RestService().postForString("http://localhost:8080/userStat/check", user.getId().toString(), "POST");
-                System.out.println(response);
-                if (!response.isEmpty()) {
-                    String params = "{" +
-                            "\"userId\": \"" + user.getId().toString() + "\"," +
-                            "\"log\": \"" + "Success" + "\"" +
-                            "}";
-                    new RestService().postForString("http://localhost:8080/logInfo/create", params, "POST");
-                    cancel();
-                }
-            }
-        }, 0, 5000);
-
         String response = new RestService().postForString("http://localhost:8080/logInfo/get-by-user", user.getId().toString(), "GET");
         try {
             q = parseResponse(response);
