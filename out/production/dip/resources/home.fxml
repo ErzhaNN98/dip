@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="854.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.sample.controller.HomeController">
+    <children>
+        <AnchorPane layoutX="34.0" layoutY="17.0" prefHeight="486.0" prefWidth="348.0" style="-fx-background-color: #0C39FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label alignment="CENTER" layoutX="72.0" layoutY="202.0" prefHeight="23.0" prefWidth="205.0" text="Shutdown" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI" size="18.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="58.0" layoutY="239.0" prefHeight="69.0" prefWidth="233.0" text="Manage your desktop shutdown remotely" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="Segoe UI" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <Text fx:id="userFullName" layoutY="40.0" layoutX="650.0">
+            <font>
+                <Font name="Segoe UI" size="18" />
+            </font>
+        </Text>
+        <Button fx:id="quit" layoutX="750.0" layoutY="20.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="55.0" style="-fx-background-color: red;" text="quit" textFill="white" />
+        <Button fx:id="shutDown" layoutX="750.0" layoutY="400" text="shutDown" textFill="white" style="-fx-background-color: red;" />
+        <Pane layoutX="443.0" layoutY="173.0" prefHeight="200.0" prefWidth="283.0" AnchorPane.bottomAnchor="130.0" AnchorPane.topAnchor="173.0">
+            <children>
+                <TextArea fx:id="logInfo" prefHeight="200.0" prefWidth="283.0">
+                    <font>
+                        <Font name="Segoe UI" size="12" />
+                    </font>
+                </TextArea>
+            </children>
+        </Pane>
+
+    </children>
+</AnchorPane>

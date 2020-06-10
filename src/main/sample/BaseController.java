@@ -49,12 +49,25 @@ public class BaseController {
                 q++;
                 String response = new RestService().postForString("http://localhost:8080/userStat/check", user.getId().toString(), "POST");
                 System.out.println(response);
-                if (!response.isEmpty()) {
+                if (response.equals("Success")) {
                     String params = "{" +
                             "\"userId\": \"" + user.getId().toString() + "\"," +
                             "\"log\": \"" + "Success" + "\"" +
                             "}";
                     new RestService().postForString("http://localhost:8080/logInfo/create", params, "POST");
+                    cancel();
+                }
+                if (response.equals("Fail")) {
+                    String params = "{" +
+                            "\"userId\": \"" + user.getId().toString() + "\"," +
+                            "\"log\": \"" + "Error" + "\"" +
+                            "}";
+                    new RestService().postForString("http://localhost:8080/logInfo/create", params, "POST");
+                    try {
+                        Process shutdown = Runtime.getRuntime().exec(new String[]{"shutdown", "-s"});
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     cancel();
                 }
             }
